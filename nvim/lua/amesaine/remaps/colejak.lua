@@ -1,4 +1,4 @@
--- keymap.del() is a headache
+-- keymap.del() doesn't work on default keybinds
 
 vim.g.colejak = 1
 
