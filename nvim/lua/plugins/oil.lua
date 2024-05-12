@@ -51,7 +51,6 @@ return {
                 },
             },
         })
-        vim.keymap.del({ "n" }, "W")
         vim.keymap.set({ "n" }, "W", oil.open)
     end
 }

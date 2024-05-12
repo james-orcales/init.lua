@@ -48,7 +48,7 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 -- Place cursor up to end on new line
 vim.keymap.set("n", "<CR>", "i<CR><ESC>_")
 -- Place whole line on new line
-vim.keymap.set("n", "<C-CR>", "I<CR><ESC>_")
+vim.keymap.set("n", "<C-CR>", "mx<S-O><ESC>`x")
 -- Sandwich selection on newline
 vim.keymap.set("v", "<CR>", "<ESC>`>a<CR><ESC>`<i<CR><ESC>")
 
