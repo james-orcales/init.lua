@@ -25,14 +25,17 @@ return {
             keymaps = {
                 ["?"] = "actions.show_help",
                 ["<CR>"] = "actions.select",
-                ["W"] = oil.close,
-                ["<C-C>"] = oil.discard_all_changes,
-                ["<C-l>"] = "actions.refresh",
+                ["<C-C>"] = function()
+                    oil.discard_all_changes()
+                    oil.close()
+                end,
+                ["<C-l>"] = oil.discard_all_changes(),
                 ["-"] = "actions.parent",
                 ["_"] = "actions.open_cwd",
                 ["cd"] = "actions.cd",
                 ["<Home>"] = "gg",
                 ["<End>"] = "G",
+                ["W"] = "<nop>"
 
             },
             use_default_keymaps = false,
