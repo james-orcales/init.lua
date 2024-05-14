@@ -54,6 +54,6 @@ return {
                 },
             },
         })
-        vim.keymap.set({ "n" }, "W", oil.open)
+        vim.keymap.set({ "n" }, "-", oil.open)
     end
 }
