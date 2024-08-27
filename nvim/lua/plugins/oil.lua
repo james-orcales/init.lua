@@ -4,7 +4,7 @@ return {
     config = function()
         local oil = require "oil"
         oil.setup({
-            default_file_explorer = true,
+            -- default_file_explorer = true,
             columns = { "icon", },
             buf_options = {
                 buflisted = false,
@@ -33,11 +33,10 @@ return {
                 ["-"] = "actions.parent",
                 ["_"] = "actions.open_cwd",
                 ["cd"] = "actions.cd",
-                ["<Home>"] = "gg",
-                ["<End>"] = "G",
-                ["W"] = "<nop>"
-
+                ["<C-Home>"] = "gg",
+                ["<C-End>"] = "G",
             },
+            natural_order = false,
             use_default_keymaps = false,
             view_options = { show_hidden = true, },
             progress = {

@@ -1,33 +1,46 @@
 return {
     {
-        'nvim-telescope/telescope.nvim',
-        tag = '0.1.6',
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-            "nvim-tree/nvim-web-devicons"
-        },
+        "ibhagwan/fzf-lua",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        event = "VimEnter",
         config = function()
-            require "telescope".setup {
+            local fzf = require "fzf-lua"
+            vim.keymap.set("n", "<Space>", function()
+                fzf.files({
+                    cwd_prompt = false,
+                })
+            end)
+            vim.keymap.set("n", "<C-Space>", fzf.builtin)
+            vim.keymap.set("n", "s<Space>", fzf.live_grep_native)
+            vim.keymap.set("n", "h<Space>", fzf.help_tags)
+            vim.keymap.set("n", "m<Space>", fzf.manpages)
+            vim.keymap.set("n", "c<Space>", fzf.commands)
+
+            fzf.setup {
                 defaults = {
-                    mappings = {
-                        i = {
-                            ["<C-H>"] = function()
-                                vim.api.nvim_input "<C-W>"
-                            end,
-                            ["<C-BS>"] = function()
-                                vim.api.nvim_input "<C-W>"
-                            end,
-                        },
+                    header = false,
+                },
+                winopts = {
+                    fullscreen = true,
+                    preview = {
+                        layout = "horizontal",
                     },
+                },
+                keymap = {
+                    builtin = {
+                        ["?"] = "toggle-help",
+                        ["<Right>"] = "preview-down",
+                        ["<Left>"] = "preview-up",
+                    },
+                    fzf = {
+                        ["ctrl-h"] = "backward-kill-word",
+                        ["shift-down"] = "half-page-down",
+                        ["shift-up"] = "half-page-up",
+                        ["home"] = "first",
+                        ["end"] = "last",
+                    }
                 }
             }
-            local builtin = require('telescope.builtin')
-            vim.keymap.set('n', "w", builtin.find_files, {})
-            vim.keymap.set('n', '<leader>tb', builtin.buffers, {})
-            vim.keymap.set('n', '<leader>th', builtin.help_tags, {})
-            vim.keymap.set('n', '<leader>ts', function()
-                builtin.grep_string({ search = vim.fn.input("Grep > ") })
-            end)
         end
     },
     {
@@ -47,10 +60,10 @@ return {
             vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
             vim.keymap.set("n", "<leader>hp", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
-            vim.keymap.set("n", "<A-n>", function() harpoon:list():select(1) end)
-            vim.keymap.set("n", "<A-e>", function() harpoon:list():select(2) end)
-            vim.keymap.set("n", "<A-i>", function() harpoon:list():select(3) end)
-            vim.keymap.set("n", "<A-o>", function() harpoon:list():select(4) end)
+            vim.keymap.set("n", "l", function() harpoon:list():select(1) end)
+            vim.keymap.set("n", "w", function() harpoon:list():select(2) end)
+            vim.keymap.set("n", "b", function() harpoon:list():select(3) end)
+            vim.keymap.set("n", "j", function() harpoon:list():select(4) end)
         end
     },
     {
@@ -58,17 +71,15 @@ return {
         event = "VeryLazy",
         config = function()
             local leap = require("leap")
-            local palette = vim.g.colorpalette
 
             leap.opts.safe_labels = {}
             leap.opts.labels = "arstgoienhqwdpyul"
             leap.opts.max_phase_one_targets = 0
-            leap.opts.special_keys.next_group = '<backspace>'
+            leap.opts.special_keys.next_group = '<space>'
 
             vim.keymap.set({ 'n', 'x', 'o' }, 't', '<Plug>(leap)')
-            vim.api.nvim_set_hl(0, "LeapBackdrop", { fg = palette["comment"] })
-            vim.api.nvim_set_hl(0, "LeapLabelPrimary", { bg = palette["yellow"], fg = palette["black"] })
-            vim.api.nvim_set_hl(0, "LeapLabelSecondary", { bg = palette["cyan"], fg = palette["black"] })
+            vim.api.nvim_set_hl(0, "LeapBackdrop", { fg = "#928374" })
+            vim.api.nvim_set_hl(0, "LeapLabelPrimary", { bg = "#FDFD96", fg = "#000000" })
 
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = "netrw",
@@ -89,10 +100,10 @@ return {
             "TmuxNavigateRight",
         },
         keys = {
-            { "<M-Left>",  "<cmd>TmuxNavigateLeft<cr>" },
-            { "<M-Down>",  "<cmd>TmuxNavigateDown<cr>" },
-            { "<M-Up>",    "<cmd>TmuxNavigateUp<cr>" },
-            { "<M-Right>", "<cmd>TmuxNavigateRight<cr>" },
+            { "<M-Left>",  "<ESC><cmd>TmuxNavigateLeft<cr>",  mode = { "n", "i" } },
+            { "<M-Down>",  "<ESC><cmd>TmuxNavigateDown<cr>",  mode = { "n", "i" } },
+            { "<M-Up>",    "<ESC><cmd>TmuxNavigateUp<cr>",    mode = { "n", "i" } },
+            { "<M-Right>", "<ESC><cmd>TmuxNavigateRight<cr>", mode = { "n", "i" } },
         },
     },
 }
