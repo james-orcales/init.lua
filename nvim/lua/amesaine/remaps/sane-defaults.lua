@@ -17,6 +17,8 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- Center screen on jump
 override({ "n", "v" }, "<S-Down>", "<C-D>", "Page down, center cursor", "<C-D>zz")
 override({ "n", "v" }, "<S-Up>", "<C-U>", "Page up, center cursor", "<C-U>zz")
+override({ "n", "v" }, "<C-S-Down>", "<C-D>", "Page down multiple, center cursor", "<C-D><C-D><C-D>zz")
+override({ "n", "v" }, "<C-S-Up>", "<C-U>", "Page up multiple, center cursor", "<C-U><C-U><C-U>zz")
 
 -- Join current line with next and keep curson in place
 vim.keymap.set("n", "<S-CR>", "mzJ`z")
@@ -34,9 +36,6 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 -- Remap comment
 vim.keymap.set("n", "cm", "gcc", { remap = true })
 vim.keymap.set("v", "cm", "gc", { remap = true })
-
--- Remap fold toggle
-vim.keymap.set("n", "f", "za", { desc = "Toggle Fold" })
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
