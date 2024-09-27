@@ -5,11 +5,8 @@ return {
         local oil = require "oil"
         oil.setup({
             -- default_file_explorer = true,
-            columns = { "icon", },
-            buf_options = {
-                buflisted = false,
-                bufhidden = "hide",
-            },
+            columns = { "icon" },
+            buf_options = { buflisted = false, bufhidden = "hide", },
             win_options = {
                 wrap = false,
                 signcolumn = "no",
@@ -25,16 +22,21 @@ return {
             keymaps = {
                 ["?"] = "actions.show_help",
                 ["<CR>"] = "actions.select",
-                ["<C-C>"] = function()
-                    oil.discard_all_changes()
-                    oil.close()
-                end,
-                ["<C-l>"] = oil.discard_all_changes(),
+                ["<C-C>"] = oil.discard_all_changes(),
                 ["-"] = "actions.parent",
                 ["_"] = "actions.open_cwd",
-                ["cd"] = "actions.cd",
                 ["<C-Home>"] = "gg",
                 ["<C-End>"] = "G",
+                ["="] = function()
+                    if vim.g.oil_size_column == 1 then
+                        oil.set_columns({ "icon" })
+                        vim.g.oil_size_column = 0
+                    else
+                        oil.set_columns({ "icon", "size" })
+                        vim.g.oil_size_column = 1
+                    end
+                end,
+                ["Y"] = "actions.yank_entry",
             },
             natural_order = false,
             use_default_keymaps = false,
@@ -48,9 +50,7 @@ return {
                 height = nil,
                 border = "rounded",
                 minimized_border = "none",
-                win_options = {
-                    winblend = 0,
-                },
+                win_options = { winblend = 10, },
             },
         })
         vim.keymap.set({ "n" }, "-", oil.open)

@@ -1,5 +1,9 @@
+vim.opt.laststatus = 3
+
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
+
+vim.opt.winblend = 5
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
@@ -24,6 +28,7 @@ vim.opt.incsearch = true
 vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 2
+
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
@@ -31,7 +36,7 @@ vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "100"
 
-vim.opt.mouse = ""
+vim.opt.mouse = "a"
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.fillchars = { eob = " " }

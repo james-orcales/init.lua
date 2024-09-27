@@ -5,32 +5,31 @@ return {
         event = "VimEnter",
         config = function()
             local fzf = require "fzf-lua"
-            vim.keymap.set("n", "<Space>", function()
-                fzf.files({
-                    cwd_prompt = false,
-                })
-            end)
+            vim.keymap.set("n", "<Space>", function() fzf.files({ cwd_prompt = false, }) end)
             vim.keymap.set("n", "<C-Space>", fzf.builtin)
             vim.keymap.set("n", "s<Space>", fzf.live_grep_native)
             vim.keymap.set("n", "h<Space>", fzf.help_tags)
             vim.keymap.set("n", "m<Space>", fzf.manpages)
-            vim.keymap.set("n", "c<Space>", fzf.commands)
+            vim.keymap.set("n", "c<Space>", function()
+                fzf.lsp_document_symbols({ winopts = { preview = { hidden = "nohidden" } } })
+            end)
 
             fzf.setup {
-                defaults = {
-                    header = false,
-                },
+                defaults = { header = false, },
                 winopts = {
+                    backdrop = 100,
                     fullscreen = true,
-                    preview = {
-                        layout = "horizontal",
-                    },
+                    preview = { hidden = "hidden", },
+                },
+                lsp = { symbols = { symbol_style = 3 } },
+                hls = {
+                    normal = "NormalFloat",
+                    border = "FloatBorder",
                 },
                 keymap = {
                     builtin = {
-                        ["?"] = "toggle-help",
                         ["<Right>"] = "preview-down",
-                        ["<Left>"] = "preview-up",
+                        ["<Left>"] = "preview-up"
                     },
                     fzf = {
                         ["ctrl-h"] = "backward-kill-word",
@@ -49,21 +48,21 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             local harpoon = require("harpoon")
+            harpoon:setup({ settings = { save_on_toggle = true, sync_on_ui_close = true } })
 
-            harpoon:setup({
-                settings = {
-                    save_on_toggle = true,
-                    sync_on_ui_close = true
-                }
-            })
-
-            vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
             vim.keymap.set("n", "<leader>hp", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
-            vim.keymap.set("n", "l", function() harpoon:list():select(1) end)
-            vim.keymap.set("n", "w", function() harpoon:list():select(2) end)
-            vim.keymap.set("n", "b", function() harpoon:list():select(3) end)
-            vim.keymap.set("n", "j", function() harpoon:list():select(4) end)
+            vim.keymap.set("n", "f", function() harpoon:list():select(1) end)
+            vim.keymap.set("n", "F", function() harpoon:list():replace_at(1) end)
+
+            vim.keymap.set("n", "b", function() harpoon:list():select(2) end)
+            vim.keymap.set("n", "B", function() harpoon:list():replace_at(2) end)
+
+            vim.keymap.set("n", "w", function() harpoon:list():select(3) end)
+            vim.keymap.set("n", "W", function() harpoon:list():replace_at(3) end)
+
+            vim.keymap.set("n", "l", function() harpoon:list():select(4) end)
+            vim.keymap.set("n", "L", function() harpoon:list():replace_at(4) end)
         end
     },
     {
@@ -73,22 +72,13 @@ return {
             local leap = require("leap")
 
             leap.opts.safe_labels = {}
-            leap.opts.labels = "arstgoienhqwdpyul"
+            leap.opts.labels = "setnricaoplfuwydbkghqj"
             leap.opts.max_phase_one_targets = 0
             leap.opts.special_keys.next_group = '<space>'
 
             vim.keymap.set({ 'n', 'x', 'o' }, 't', '<Plug>(leap)')
-            vim.api.nvim_set_hl(0, "LeapBackdrop", { fg = "#928374" })
+            vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" })
             vim.api.nvim_set_hl(0, "LeapLabelPrimary", { bg = "#FDFD96", fg = "#000000" })
-
-            vim.api.nvim_create_autocmd("FileType", {
-                pattern = "netrw",
-                desc = "remap T in NetRw",
-                group = vim.api.nvim_create_augroup("netrw-t", { clear = true }),
-                callback = function()
-                    vim.keymap.set("n", 't', '<Plug>(leap)', { remap = true, buffer = true })
-                end
-            })
         end
     },
     {
