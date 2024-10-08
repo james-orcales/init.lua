@@ -24,8 +24,8 @@ return {
         opts = {
             notification = {
                 window = {
-                    normal_hl = "Normal",
-                    winblend = 0,
+                    normal_hl = "NormalFloat",
+                    winblend = 10,
                     border = "rounded",
                     zindex = 45,
                     max_width = 0,
