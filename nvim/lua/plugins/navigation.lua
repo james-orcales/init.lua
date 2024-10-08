@@ -7,7 +7,9 @@ return {
             local fzf = require "fzf-lua"
             vim.keymap.set("n", "<Space>", function() fzf.files({ cwd_prompt = false, }) end)
             vim.keymap.set("n", "<C-Space>", fzf.builtin)
-            vim.keymap.set("n", "s<Space>", fzf.live_grep_native)
+            vim.keymap.set("n", "s<Space>", function()
+                fzf.live_grep_native({ winopts = { preview = { hidden = "nohidden" } } })
+            end)
             vim.keymap.set("n", "h<Space>", fzf.help_tags)
             vim.keymap.set("n", "m<Space>", fzf.manpages)
             vim.keymap.set("n", "c<Space>", function()
