@@ -18,7 +18,8 @@ return {
         version = "v2.*",
         opts = {}
     },
-    { "hrsh7th/nvim-cmp", event = { "InsertEnter", "CmdlineEnter" }, },
+    { "hrsh7th/nvim-cmp",                    event = { "InsertEnter", "CmdlineEnter" }, },
+    { "hrsh7th/cmp-nvim-lsp-signature-help", event = { "InsertEnter", "CmdlineEnter" }, },
     {
         "j-hui/fidget.nvim",
         opts = {

@@ -11,15 +11,21 @@ nvim_lsp.gopls.setup {
     capabilities = capabilities,
     settings = {
         gopls = {
-            experimentalPostfixCompletions = true,
+            gofumpt = true,
+            -- staticcheck = true,
             analyses = {
                 unusedvariable = true,
             },
         },
     },
     init_options = {
-        usePlaceholders = true,
+        experimentalPostfixCompletions = false,
+        -- usePlaceholders = true,
     }
+}
+
+nvim_lsp.templ.setup {
+    capabilities = capabilities,
 }
 
 nvim_lsp.lua_ls.setup {
@@ -48,9 +54,9 @@ nvim_lsp.clangd.setup {
     capabilities = capabilities,
 }
 
-vim.keymap.set('n', '<leader>fl', vim.diagnostic.open_float)
-vim.keymap.set('n', '<C-Up>', vim.diagnostic.goto_prev)
-vim.keymap.set('n', '<C-Down>', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>f', vim.diagnostic.open_float)
+vim.keymap.set('n', '<C-P>', vim.diagnostic.goto_prev)
+vim.keymap.set('n', '<C-N>', vim.diagnostic.goto_next)
 
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -64,13 +70,25 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
         vim.keymap.set('n', '<C-K>', vim.lsp.buf.signature_help, opts)
+        vim.keymap.set('i', '<C-K>', vim.lsp.buf.signature_help, opts)
         vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
 
-        vim.keymap.set({ 'n', 'v' }, 'ca<Space>', fzf.lsp_code_actions, opts)
-        vim.keymap.set("n", "<leader>r<Space>", fzf.lsp_references, opts)
-        vim.keymap.set("n", "<leader>i<Space>", fzf.lsp_implementations, opts)
-        vim.keymap.set("n", "<leader>s<Space>", fzf.lsp_live_workspace_symbols, opts)
-        vim.keymap.set("n", "<leader>d<Space>", fzf.lsp_definitions, opts)
+        local fzf_setup = { winopts = { preview = { hidden = "nohidden" } } }
+        vim.keymap.set({ "n", "v" }, "ca<Space>", function()
+            fzf.lsp_code_actions(fzf_setup)
+        end, opts)
+        vim.keymap.set({ "n" }, "<leader>r<Space>", function()
+            fzf.lsp_references(fzf_setup)
+        end, opts)
+        vim.keymap.set({ "n" }, "<leader>i<Space>", function()
+            fzf.lsp_implementations(fzf_setup)
+        end, opts)
+        vim.keymap.set({ "n" }, "<leader>c<Space>", function()
+            fzf.lsp_live_workspace_symbols(fzf_setup)
+        end, opts)
+        vim.keymap.set({ "n" }, "d<Space>", function()
+            fzf.lsp_workspace_diagnostics(fzf_setup)
+        end, opts)
     end,
 })
 
@@ -116,21 +134,11 @@ cmp.setup {
     sources = {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
+        { name = 'nvim_lsp_signature_help' },
     },
 }
 
-vim.keymap.set({ "i" }, "<C-K>", function() luasnip.expand() end, { silent = true })
 vim.keymap.set({ "i", "s" }, "<C-L>", function() luasnip.jump(1) end, { silent = true })
 vim.keymap.set({ "i", "s" }, "<C-J>", function() luasnip.jump(-1) end, { silent = true })
 
-
-vim.keymap.set({ "i", "s" }, "<C-E>", function()
-    if luasnip.choice_active() then
-        luasnip.change_choice(1)
-    end
-end, { silent = true })
-
-
-vim.diagnostic.config({
-    virtual_text = true
-})
+vim.diagnostic.config({ virtual_text = true })
