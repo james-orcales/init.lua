@@ -11,7 +11,6 @@ end
 
 override({ "n", "v", "o" }, "<C-Y>", "<C-R>", "Redo")
 vim.keymap.set("n", "<C-S>", "<CMD>w<CR>", { desc = "Save File" })
-vim.keymap.set("i", "<C-S>", "<ESC><CMD>w<CR>", { desc = "Save File" })
 
 override({ "n", "v", "o" }, "<C-Left>", "b", "Jump previous word")
 override({ "n", "v", "o" }, "<S-Left>", "B", "Jump previous whitespace")
@@ -28,11 +27,5 @@ vim.keymap.set({ "i" }, "<Home>", "<ESC>^zHi", {
 })
 
 override({ "i", "c" }, "<C-H>", "<C-W>", "Kill word before cursor")
-vim.keymap.set({ "n" }, "<C-H>", "db", { desc = "Kill word before cursor" })
-vim.keymap.set({ "n" }, "<C-BS>", "db", { desc = "Kill word before cursor" })
 override({ "i", "c" }, "<C-BS>", "<C-W>", "Kill word before cursor")
 vim.keymap.set({ "i" }, "<C-Del>", "<Esc><Right>dwi", { desc = "Kill next word from cursor" })
-vim.keymap.set({ "n" }, "<C-Del>", "dw", { desc = "Kill next word from cursor" })
-vim.keymap.set({ "n" }, "<C-S-Del>", "dW", { desc = "Kill to whitespace from cursor" })
-
-override("n", "<BS>", "x", "Kill char before cursor", "<Left>x")

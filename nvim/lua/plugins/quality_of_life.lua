@@ -36,23 +36,4 @@ return {
             require "nvim-autopairs".setup()
         end
     },
-    {
-        "shortcuts/no-neck-pain.nvim",
-        version = "*",
-        config = function()
-            local nnp = require("no-neck-pain")
-            nnp.setup({
-                width = 90,
-                minSideBufferWidth = 0,
-                autocmds = {
-                    enableOnVimEnter = true,
-                    skipEnteringNoNeckPainBuffer = true,
-                },
-                buffers = {
-                    left = {},
-                    right = { enabled = false, },
-                },
-            })
-        end
-    },
 }

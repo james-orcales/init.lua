@@ -6,6 +6,15 @@ return {
             require('nvim-treesitter.configs').setup({
                 ignore_install = {},
                 modules = {},
+                incremental_selection = {
+                    enable = true,
+                    keymaps = {
+                        init_selection = "gnn",
+                        node_incremental = "grn",
+                        scope_incremental = "grc",
+                        node_decremental = "grm",
+                    },
+                },
                 ensure_installed = {
                     "c",
                     "lua",
@@ -34,7 +43,6 @@ return {
                 max_lines = 1,           -- How many lines the window should span. Values <= 0 mean no limit.
                 multiline_threshold = 1, -- Maximum number of lines to show for a single context
             }
-            vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { link = "NormalFloat" })
         end
     }
 }
