@@ -1,7 +1,6 @@
 return {
     {
         "ibhagwan/fzf-lua",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
         event = "VimEnter",
         config = function()
             local fzf = require "fzf-lua"
@@ -9,7 +8,6 @@ return {
                 fzf.files({ cwd_prompt = false, previewer = false, }) 
             end)
             vim.keymap.set("n", "<C-Space>", fzf.builtin)
-            vim.keymap.set("n", "b", fzf.buffers)
             vim.keymap.set("n", "s<Space>", fzf.live_grep_native)
             vim.keymap.set("n", "h<Space>", function() fzf.help_tags({previewer = false}) end)
             vim.keymap.set("n", "m<Space>", function() fzf.manpages({previewer = false}) end)
@@ -56,20 +54,5 @@ return {
             vim.keymap.set({ 'n', 'x', 'o' }, 't', '<Plug>(leap)')
             vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" })
         end
-    },
-    {
-        "christoomey/vim-tmux-navigator",
-        cmd = {
-            "TmuxNavigateLeft",
-            "TmuxNavigateDown",
-            "TmuxNavigateUp",
-            "TmuxNavigateRight",
-        },
-        keys = {
-            { "<M-Left>",  "<ESC><cmd>TmuxNavigateLeft<cr>",  mode = { "n", "i" } },
-            { "<M-Down>",  "<ESC><cmd>TmuxNavigateDown<cr>",  mode = { "n", "i" } },
-            { "<M-Up>",    "<ESC><cmd>TmuxNavigateUp<cr>",    mode = { "n", "i" } },
-            { "<M-Right>", "<ESC><cmd>TmuxNavigateRight<cr>", mode = { "n", "i" } },
-        },
     },
 }

@@ -10,7 +10,7 @@ end
 
 -------- IMPROVED FUNCTIONALITY --------
 
-vim.keymap.set("n", "q:", ":q", { desc = "fuck this, use q? instead"})
+vim.keymap.set("n", "q:", ":q", { desc = "use q? instead"})
 
 vim.keymap.set("n", "H", "<nop>")
 

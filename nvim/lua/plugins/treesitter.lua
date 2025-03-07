@@ -26,6 +26,7 @@ return {
                     "go",
                     "python",
                     "zig",
+                    "odin",
                 },
                 sync_install = false,
                 auto_install = true,

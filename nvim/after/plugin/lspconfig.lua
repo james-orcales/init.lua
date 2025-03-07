@@ -42,6 +42,13 @@ nvim_lsp.clangd.setup {
 
 nvim_lsp.ols.setup {
     capabilities = capabilities,
+    init_options = {
+            checker_args = "-strict-style -vet -vet-cast -disallow-do",
+    }
+}
+
+nvim_lsp.ts_ls.setup {
+    capabilities = capabilities,
 }
 
 vim.keymap.set('n', '<leader>f', vim.diagnostic.open_float)
