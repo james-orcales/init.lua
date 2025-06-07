@@ -1,7 +1,4 @@
-require("mason").setup()
-require("mason-lspconfig").setup({
-	ensure_installed = { "clangd", "gopls", "ols" },
-})
+require("mason-lspconfig").setup({})
 
 local nvim_lsp = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -22,36 +19,13 @@ nvim_lsp.gopls.setup({
 	},
 })
 
-vim.g.zig_fmt_autosave = false
-nvim_lsp.zls.setup({
-	capabilities = capabilities,
-	cmd = { "/home/amesaine/build/zls/zig-out/bin/zls" },
-	settings = {
-		enable_autofix = false,
-		completion_label_details = false, -- https://github.com/zigtools/zls/pull/1696
-		-- enable_build_on_save = true,      -- https://kristoff.it/blog/improving-your-zls-experience/
-		enable_argument_placeholders = false,
-		enable_snippets = true,
-	},
-})
-
-nvim_lsp.clangd.setup({
-	capabilities = capabilities,
-})
-
-nvim_lsp.jedi_language_server.setup({
-	capabilities = capabilities,
-})
-
+nvim_lsp.pyright.setup({ capabilities = capabilities })
+nvim_lsp.jsonls.setup({ capabilities = capabilities })
 nvim_lsp.ols.setup({
 	capabilities = capabilities,
 	init_options = {
 		checker_args = "-strict-style -vet -vet-cast -disallow-do",
 	},
-})
-
-nvim_lsp.ts_ls.setup({
-	capabilities = capabilities,
 })
 
 vim.keymap.set("n", "<leader>f", vim.diagnostic.open_float)
@@ -65,28 +39,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local fzf = require("fzf-lua")
 
 		local opts = { buffer = ev.buf }
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-		vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 		vim.keymap.set({ "n", "i" }, "<C-K>", vim.lsp.buf.signature_help, opts)
-		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 
-		vim.keymap.set({ "n", "v" }, "ca<Space>", function()
-			fzf.lsp_code_actions({})
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+		vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
+		vim.keymap.set("n", "lC", vim.lsp.buf.incoming_calls, opts)
+		vim.keymap.set("n", "le", function()
+			vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR })
 		end, opts)
-		vim.keymap.set({ "n" }, "<leader>r<Space>", function()
-			fzf.lsp_references({})
-		end, opts)
-		vim.keymap.set({ "n" }, "<leader>i<Space>", function()
-			fzf.lsp_implementations({})
-		end, opts)
-		vim.keymap.set({ "n" }, "<leader>c<Space>", function()
-			fzf.lsp_live_workspace_symbols({})
-		end, opts)
-		vim.keymap.set({ "n" }, "d<Space>", function()
-			fzf.lsp_workspace_diagnostics({})
-		end, opts)
+
+		vim.keymap.set({ "n", "v" }, "lc", fzf.lsp_code_actions, opts)
+		vim.keymap.set({ "n" }, "ls", fzf.lsp_document_symbols, opts)
+		vim.keymap.set({ "n" }, "lS", fzf.lsp_live_workspace_symbols, opts)
 	end,
 })
 
@@ -141,18 +106,5 @@ cmp.setup({
 	},
 })
 
-vim.keymap.set({ "i", "s" }, "<C-L>", function()
-	luasnip.jump(1)
-end, { silent = true })
-vim.keymap.set({ "i", "s" }, "<C-J>", function()
-	luasnip.jump(-1)
-end, { silent = true })
-
 vim.diagnostic.config({ virtual_lines = { current_line = true } })
-vim.keymap.set({ "n" }, "<leader>ld", function()
-	if vim.diagnostic.is_enabled() then
-		vim.diagnostic.disable()
-	else
-		vim.diagnostic.enable()
-	end
-end, { silent = true })
+vim.keymap.set("n", "ld", vim.diagnostic.setqflist, opts)

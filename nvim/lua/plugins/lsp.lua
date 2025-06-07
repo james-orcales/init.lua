@@ -1,12 +1,40 @@
 return {
 	"neovim/nvim-lspconfig",
-	"williamboman/mason.nvim",
-	"williamboman/mason-lspconfig.nvim",
 	{
-		"L3MON4D3/LuaSnip",
-		version = "v2.*",
-		opts = {},
+		"williamboman/mason.nvim",
+		config = function()
+			require("mason").setup()
+			local ensure_installed = {
+				"actionlint", -- github actions
+				"clangd",
+				"codelldb",
+				"delve", -- golang debugger
+				"golangci-lint",
+				"gopls",
+				"hadolint", -- dockerfile
+				"jsonlint",
+				"ols",
+				"pyright",
+				"ruff", -- python
+				"shellcheck",
+				"stylua",
+				"yamlfmt",
+			}
+
+			local mason = require("mason-registry")
+			local installed = {}
+			for _, v in pairs(mason.get_installed_package_names()) do
+				installed[v] = true
+			end
+			for _, pkg in pairs(ensure_installed) do
+				if not installed[pkg] then
+					vim.api.nvim_cmd({ cmd = "MasonInstall", args = { pkg } }, {})
+				end
+			end
+		end,
 	},
+	"williamboman/mason-lspconfig.nvim",
+	{ "L3MON4D3/LuaSnip", version = "v2.*", opts = {} },
 	{ "hrsh7th/nvim-cmp", event = { "InsertEnter", "CmdlineEnter" } },
 	"hrsh7th/cmp-nvim-lsp",
 	{
@@ -18,6 +46,8 @@ return {
 				json = { "jsonlint" },
 				yml = { "actionlint" },
 				yaml = { "actionlint" },
+				py = { "ruff" },
+				dockerfile = { "hadolint" },
 			}
 
 			vim.api.nvim_create_autocmd({ "BufWritePost" }, {
@@ -31,6 +61,14 @@ return {
 		"stevearc/conform.nvim",
 		config = function()
 			require("conform").setup({
+				formatters = {
+					yamlfmt = {
+						prepend_args = {
+							"-formatter",
+							"eof_newline=true," .. "force_array_style=block," .. "trim_trailing_whitespace=true",
+						},
+					},
+				},
 				format_on_save = {
 					-- These options will be passed to conform.format()
 					timeout_ms = 500,
@@ -38,8 +76,11 @@ return {
 				},
 				formatters_by_ft = {
 					lua = { "stylua" },
-					yml = { "yamlfmt" },
+					py = { "ruff" },
+					sh = { "shfmt" },
+					bash = { "shfmt" },
 					yaml = { "yamlfmt" },
+					yml = { "yamlfmt" },
 				},
 			})
 		end,
