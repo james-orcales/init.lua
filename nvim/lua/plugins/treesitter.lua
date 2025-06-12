@@ -11,9 +11,9 @@ return {
 				incremental_selection = {
 					enable = true,
 					keymaps = {
-						init_selection = "<a-n>",
-						node_decremental = "<a-p>",
-						node_incremental = "<a-n>",
+						init_selection = "<c-n>",
+						node_decremental = "<c-p>",
+						node_incremental = "<c-n>",
 					},
 				},
 				ensure_installed = {

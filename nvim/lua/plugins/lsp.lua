@@ -60,7 +60,8 @@ return {
 	{
 		"stevearc/conform.nvim",
 		config = function()
-			require("conform").setup({
+			local conform = require("conform")
+			conform.setup({
 				formatters = {
 					yamlfmt = {
 						prepend_args = {
@@ -69,11 +70,11 @@ return {
 						},
 					},
 				},
-				format_on_save = {
-					-- These options will be passed to conform.format()
-					timeout_ms = 500,
-					lsp_format = "fallback",
-				},
+				-- format_on_save = {
+				-- 	-- These options will be passed to conform.format()
+				-- 	timeout_ms = 500,
+				-- 	lsp_format = "fallback",
+				-- },
 				formatters_by_ft = {
 					lua = { "stylua" },
 					py = { "ruff" },
@@ -83,6 +84,10 @@ return {
 					yml = { "yamlfmt" },
 				},
 			})
+			vim.api.nvim_create_user_command("W", function()
+				conform.format()
+				vim.cmd("w")
+			end, {})
 		end,
 	},
 	{
