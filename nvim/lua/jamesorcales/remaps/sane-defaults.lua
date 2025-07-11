@@ -19,10 +19,10 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- Center screen on jump
-override({ "n", "v" }, "<S-Down>", "<C-D>", "Page down, center cursor", "<C-D>zz")
-override({ "n", "v" }, "<S-Up>", "<C-U>", "Page up, center cursor", "<C-U>zz")
-override({ "n", "v" }, "<C-S-Down>", "<C-D>", "Page down multiple, center cursor", "<C-D><C-D><C-D>zz")
-override({ "n", "v" }, "<C-S-Up>", "<C-U>", "Page up multiple, center cursor", "<C-U><C-U><C-U>zz")
+override({ "n", "v" }, "<S-Down>",   "<C-D>", "Page down, center cursor"         ,  "<C-D>zz"           )
+override({ "n", "v" }, "<S-Up>",     "<C-U>", "Page up, center cursor"           ,  "<C-U>zz"           )
+override({ "n", "v" }, "<C-S-Down>", "<C-D>", "Page down multiple, center cursor",  "<C-D><C-D><C-D>zz" )
+override({ "n", "v" }, "<C-S-Up>",   "<C-U>", "Page up multiple, center cursor"  ,  "<C-U><C-U><C-U>zz" )
 
 -- Escape in insert mode
 -- <C-c> is remapped to <Esc> so that exiting insert mode behaves consistently.
@@ -41,7 +41,7 @@ vim.keymap.set("v", "<C-Down>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "<C-Up>", ":m '<-2<CR>gv=gv")
 
 -- Delete without affecting default register
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+vim.keymap.set("v", "D", [["_d]])
 
 -- Case-insensitive search and replace without confirmation
 vim.keymap.set("n", "sr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])

@@ -1,7 +1,7 @@
 return {
 	{
 		"kylechui/nvim-surround",
-		version = "*",
+                version = "^3.0.0",
 		event = "VeryLazy",
 		opts = {
 			surrounds = {
@@ -30,32 +30,9 @@ return {
 		},
 	},
 	{
-		"jake-stewart/multicursor.nvim",
-		branch = "1.0",
-		config = function()
-			local mc = require("multicursor-nvim")
-			mc.setup()
-			local set = vim.keymap.set
-			set({ "n", "x" }, "b", mc.toggleCursor)
-			-- Mappings defined in a keymap layer only apply when there are
-			-- multiple cursors. This lets you have overlapping mappings.
-			mc.addKeymapLayer(function(layerSet)
-				-- Select a different cursor as the main one.
-				layerSet({ "n", "x" }, "<a-left>", mc.prevCursor)
-				layerSet({ "n", "x" }, "<a-right>", mc.nextCursor)
-
-				layerSet("n", "<c-c>", function()
-					if not mc.cursorsEnabled() then
-						mc.enableCursors()
-					else
-						mc.clearCursors()
-					end
-				end)
-			end)
-		end,
-	},
-	{
-		"junegunn/vim-easy-align",
+                url = "https://www.github.com/junegunn/vim-easy-align",
+                commit = "9815a55dbcd817784458df7a18acacc6f82b1241",
+                pin = true,
 		config = function()
 			vim.g.easy_align_ignore_groups = {}
 			vim.keymap.set("n", "ga", "<Plug>(EasyAlign)")

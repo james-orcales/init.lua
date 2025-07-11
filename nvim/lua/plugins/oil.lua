@@ -4,27 +4,26 @@ return {
 		local oil = require("oil")
 		oil.setup({
 			-- default_file_explorer = true,
-			columns = { "icon" },
+			columns     = { "icon" },
 			buf_options = { buflisted = false, bufhidden = "hide" },
 			win_options = {
-				wrap = false,
+				wrap       = false,
+				spell      = false,
+				list       = false,
 				foldcolumn = "0",
-				spell = false,
-				list = false,
 			},
-			delete_to_trash = false,
-			skip_confirm_for_simple_edits = true,
+			delete_to_trash                 = false,
 			prompt_save_on_select_new_entry = true,
-			constrain_cursor = "name",
+			constrain_cursor                = "name",
 			keymaps = {
-				["?"] = "actions.show_help",
-				["<CR>"] = "actions.select",
-				["<C-C>"] = oil.discard_all_changes(),
-				["-"] = "actions.parent", -- dash
-				["_"] = "actions.open_cwd", -- underscore
+				["?"]        = "actions.show_help",
+				["<CR>"]     = "actions.select",
+				["<C-C>"]    = oil.discard_all_changes(),
+				["-"]        = "actions.parent", -- dash
+				["_"]        = "actions.open_cwd", -- underscore
 				["<C-Home>"] = "gg",
-				["<C-End>"] = "G",
-				["="] = function()
+				["<C-End>"]  = "G",
+				["="]        = function()
 					if vim.g.oil_size_column == 1 then
 						oil.set_columns({ "icon" })
 						vim.g.oil_size_column = 0
