@@ -21,6 +21,7 @@ return {
 				["<C-C>"]    = oil.discard_all_changes(),
 				["-"]        = "actions.parent", -- dash
 				["_"]        = "actions.open_cwd", -- underscore
+				["cd"]        = "actions.cd",
 				["<C-Home>"] = "gg",
 				["<C-End>"]  = "G",
 				["="]        = function()

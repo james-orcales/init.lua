@@ -10,7 +10,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
         desc = "Spacing Format on save",
         group = vim.api.nvim_create_augroup("spacing-format-write", { clear = true }),
-        pattern = "*",
+        pattern = {"*.odin", "*.go", "*.py"},
         callback = function()
                 -- NOTE: I tried Ex commands with regex at first. The problem was that when undoing, the cursor would
                 -- jump to the top of the file.
